@@ -8,8 +8,9 @@ module.exports = {
 };
 
 async function signup(req, res) {
-  const user = new User(req.body);
   try {
+    console.log(req.body)
+    const user = new User(req.body);
     await user.save();
     const token = createJWT(user);
     res.json({ token });
