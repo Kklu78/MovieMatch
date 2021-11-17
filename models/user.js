@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   username: {type: String, required: true, lowercase: true, unique: true},
   email: {type: String, required: true, lowercase: true, unique: true},
   password: String,
+  movies: [{type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
 }, {
   timestamps: true
 });

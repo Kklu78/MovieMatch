@@ -39,11 +39,12 @@ export default function SignUpPage() {
     }
     // You can look inside by doing this 
     formData.forEach((item) => console.log(item, 'item'))
+    console.log(state, 'state')
 
 
     try {
       // For requests that are sending over a photo, we must send formData
-      await userService.signup(formData) // after we get a response from the server
+      await userService.signup(state) // after we get a response from the server
 
       handleSignUpOrLogin() // decodes our token in localstorage, and sets the users information in our App.js state
       navigate('/') // navigates to the home page route

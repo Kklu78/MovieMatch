@@ -1,56 +1,31 @@
-import React, {useContext, useState} from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Button, Header, Segment} from 'semantic-ui-react';
+import React, { useContext, useState } from 'react';
+import {  Link } from 'react-router-dom';
+import { Menu, Header, Segment, Icon } from 'semantic-ui-react';
 import userService from '../../utils/userService'
 import { AppContext } from '../../context/AppContext';
 
-function PageHeader(){
-    const {user, handleLogout} = useContext(AppContext)
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
-    console.log(!user, user)
+function PageHeader() {
+  const { user, handleLogout, searchList, APISearch } = useContext(AppContext)
 
-    const LoggedIn = user ? 'Logout' : 'Login'
+  const LoggedIn = !user ? <Link to={`/login`}>Login</Link> : <Link to='' onClick={handleLogout}>Logout</Link>
+
+  const headerSearch = searchList.map((item, i) => {
+        return (<Menu.Item className="compact" key={i} name={`${item.name}`} onClick={() => {APISearch(item.url)}}>{item.name}</Menu.Item>)
+  })
 
 
-    async function handleSubmit(e) {
-        e.preventDefault();
 
-        if (!user) {
-            navigate("/")
-        } else {
-            try {
-                await userService.logout();
-                handleLogout()
-                navigate("/login");
-              } catch (err) {
-                // Invalid user data (probably duplicate email)
-                setError(err.message);
-              }
 
-        }
-    
-        
-      }
-    return (
-        <Segment>
-            <Header as='h2' >
+  return (
+    <Segment clearing>
+      <Header as='h2' floated='left'><Link to="/"><Icon name="home"></Icon>Home</Link></Header>
+      <Header as='h2' floated='right'>{LoggedIn}</Header>
+      <Header size='huge' textAlign='center'>MovieMatch</Header>
+      <Menu inverted='true'>
+      {headerSearch}
+      </Menu >
 
-            <Button
-                color="teal"
-                fluid
-                size="large"
-                type="submit"
-                className="btn"
-                onClick={handleSubmit}
-              >
-                {LoggedIn}
-              </Button>
-
-                
-            
-            </Header>
-        </Segment>
-    )
+    </Segment>
+  )
 }
 export default PageHeader
