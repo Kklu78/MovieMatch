@@ -30,9 +30,9 @@ export default function Profile() {
     
     
     const FriendStatusDict = {
-        0:<Grid.Row><Button color={'blue'} onClick={() => friendRequest(userId)}content='Add Friend' /></Grid.Row>,
+        0:<Grid.Row><Button color={'blue'} href={`/profile/${userId}`} onClick={() => friendRequest(userId)}content='Add Friend' /></Grid.Row>,
         1:<Grid.Row><Button color={'grey'} content='Friend Requested' disabled /></Grid.Row>,
-        2:<Grid.Row><Button color={'blue'} onClick={() => acceptRequest(userId)}content='Accept Friend Request' /></Grid.Row>,
+        2:<Grid.Row><Button color={'blue'} href={`/profile/${userId}`} onClick={() => acceptRequest(userId)}content='Accept Friend Request' /></Grid.Row>,
         3:<Grid.Row><Button color={'vk'} content='You Are Friends' /></Grid.Row>
     }
 
@@ -45,7 +45,6 @@ export default function Profile() {
         getFriends(userId)
         setTitle(`${allUsers?.filter(user => user._id === userId)[0]?.username}`)
     }, [userId])
-
 
 
 

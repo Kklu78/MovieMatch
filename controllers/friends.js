@@ -101,7 +101,6 @@ async function getAllFriends(req, res) {
 
     try {
         const friends = await Friend.find({ requester: req.user._id, status: '3' })
-        console.log(friends, 'getallfriends')
         res.status(201).json({ friends: friends });
     } catch (err) {
         res.status(400).json({ err });

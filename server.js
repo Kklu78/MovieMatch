@@ -28,7 +28,7 @@ app.use('/api/friends', require('./routes/api/friends'));
 
 // "catch all" route
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 const port = process.env.PORT || 3001;

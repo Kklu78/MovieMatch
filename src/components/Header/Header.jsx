@@ -9,7 +9,7 @@ function PageHeader() {
   const LoggedIn = !user ? <Link style={{'color': 'black'}} to={`/login`}><Icon name="sign in"></Icon>Login</Link> : <Link style={{'color': 'black'}} to='' onClick={handleLogout}><Icon name="sign out"></Icon>Logout</Link>
   
   const headerSearch = searchList.map((item, i) => {
-        return (<Menu.Item as={Link} to='/' key={i} name={`${item.name}`} onClick={() => {APISearch(item.url)}}>{item.name}</Menu.Item>)
+        return (<Menu.Item key={i} name={`${item.name}`}><Link onClick={() => {APISearch(item.url)}} to='/'>{item.name}</Link></Menu.Item>)
   })
 
   const allUsersList = allUsers?.map((u, i) => {

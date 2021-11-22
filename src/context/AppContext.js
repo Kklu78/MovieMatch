@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import userService from "../utils/userService";
 import * as movieApi from "../utils/movieApi";
 import * as friendsApi from "../utils/friendsApi"
+import { allMoviesData } from './Data'
+
 export const AppContext = React.createContext();
 
 
@@ -11,38 +13,37 @@ export const AppContextProvider = ({ children }) => {
 	const [user, setUser] = useState(userService.getUser()); // user data
 	const [allUsers, setAllUsers] = useState([]); // all users data
 	const [AppData, setAppData] = useState({}); // api call data
-	const [APIUrl, setAPIUrl] = useState(`https://imdb-api.com/en/API/InTheaters/${REACT_APP_IMDB_KEY}`) //api url
+	const [APIUrl, setAPIUrl] = useState(`https://imdb-api.com/en/API/MostPopularMovies/${REACT_APP_IMDB_KEY}`) //api url
 	const [Title, setTitle] = useState('') // header title
 	const [movieData, setMovieData] = useState({});
 	const [castData, setCastData] = useState({});
 	const [moviesList, setMoviesList] = useState([])
 	const [friendStatus, setFriendStatus] = useState([])
 	const [userFriends, setuserFriends] = useState([[]])
-	const [allMovies, setAllMovies] = useState({})
-	const [poster, setPoster] = useState({})
-	const [allPosters, setAllPosters] = useState({})
+	const [allMovies, setAllMovies] = useState(allMoviesData)
+
 	const searchList = [
 		{ key: 'mostPopular', name: 'Most Popular', url: `https://imdb-api.com/en/API/MostPopularMovies/${REACT_APP_IMDB_KEY}` },
 		{ key: 'nowPlaying', name: 'Now Playing', url: `https://imdb-api.com/en/API/InTheaters/${REACT_APP_IMDB_KEY}` },
-		{ key: 'comingSoon', name: 'Coming Soon', url: `https://imdb-api.com/en/API/ComingSoon/${REACT_APP_IMDB_KEY}` },
 		{ key: 'top250', name: 'Top 250', url: `https://imdb-api.com/en/API/Top250Movies/${REACT_APP_IMDB_KEY}` },
-		{ key: 'boxOffice', name: 'Box Office', url: `https://imdb-api.com/en/API/BoxOffice/${REACT_APP_IMDB_KEY}` }
+		{ key: 'comingSoon', name: 'Coming Soon', url: `https://imdb-api.com/en/API/ComingSoon/${REACT_APP_IMDB_KEY}` },
+
 	]
 
 	//Movie API Functions
 	function APISearch(Query) {
 		setTitle(searchList.filter(x => x.url === Query)[0].name)
+		setAPIUrl(Query)
 		return (
 			fetch(Query)
 				.then(response => response.json())
-				.then((data) => {setAppData(data); 
+				.then((data) => {setAppData(data);
 					setAllMovies(data.items.reduce((a,b) => ({...a, [b.id]:b}), {...allMovies,}));
-					// Promise.all(data.items.map(async (m) => {await getPoster(m.id); return (poster)}))
-					// .then(data => console.log(data, 'data'))//setAllPosters(data.reduce((a,b) => ({...a, [b]:b}), {...allPosters,})))
 
 				})
 		)
 	}
+
 	function MovieSearch(id) {
 		const url = `https://imdb-api.com/en/API/Title/${REACT_APP_IMDB_KEY}/${id}`
 		return (
@@ -63,16 +64,7 @@ export const AppContextProvider = ({ children }) => {
 
 	}
 
-	function getPoster(movieId) {
-        console.log('getPoster')
-		const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
-		
-		return (
-			fetch(url)
-			.then(response => response.json())
-			.then(data => setPoster({[data.imDbId] : data.posters[0]?.link}))			
-		)
-	}
+
 
 	//Movie Database Functions
 	async function getMovies() {
@@ -197,6 +189,7 @@ export const AppContextProvider = ({ children }) => {
 			Title,
 			setTitle,
 			AppData,
+			setAppData,
 			APISearch,
 			searchList,
 			MovieSearch,
@@ -204,9 +197,6 @@ export const AppContextProvider = ({ children }) => {
 			CastSearch,
 			castData,
 			allMovies,
-			getPoster,
-			allPosters, 
-			setAllPosters,
 			//Movie Database Functions
 			addMovie,
 			removeMovie,
@@ -219,7 +209,7 @@ export const AppContextProvider = ({ children }) => {
 			friendStatus,
 			friendRequest,
 			acceptRequest,
-			rejectRequest,
+			rejectRequest
 		}}>{children}</AppContext.Provider>
 	)
 }
