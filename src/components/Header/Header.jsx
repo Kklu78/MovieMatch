@@ -48,6 +48,8 @@ function PageHeader() {
         {allUsersList}
       </Dropdown.Menu>
     </Dropdown>
+    <Menu.Item > {user ? `Logged In as ${user.username}` : 'Not Logged In'}</Menu.Item>
+
       </Menu >
     </>
   )

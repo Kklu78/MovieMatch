@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(
-  "mongodb://localhost:27017/moviematch", // < replace with your database name!
-)
+mongoose.connect(process.env.DATABASE_URL,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+});
 
 const db = mongoose.connection;
 

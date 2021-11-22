@@ -21,7 +21,7 @@ export default function MovieFeed() {
         setLoading(true)
         APISearch(APIUrl)
         getMovies()
-        setTimeout(() => setLoading(false), 1000)
+        setTimeout(() => setLoading(false), Math.floor(Math.random() * 500)+ 500)
 
     }, [MoviesData])
 
