@@ -2,8 +2,19 @@ import tokenService from './tokenService';
 
 const BASE_URL = '/api/users/';
 
+export function getAllUsers() {
+  return fetch(`${BASE_URL}all/`, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + tokenService.getToken(),
+    },
+  }).then((res) => {
+    if (res.ok) return res.json();
+    throw new Error("Error in getAllUsers");
+  });
+}
+
 function signup(user) {
-  console.log(user)
   return fetch(BASE_URL + 'signup', {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
@@ -45,5 +56,6 @@ export default {
   signup, 
   getUser,
   logout,
-  login
+  login,
+  getAllUsers
 };

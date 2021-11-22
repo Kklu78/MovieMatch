@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import { Button, Form, Grid, Header, Image, Segment } from "semantic-ui-react";
+import { Button, Form, Grid, Header, Icon, Segment } from "semantic-ui-react";
 import userService from "../../utils/userService";
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext'
@@ -37,9 +37,6 @@ export default function SignUpPage() {
     for (let key in state){
       formData.append(key, state[key])
     }
-    // You can look inside by doing this 
-    formData.forEach((item) => console.log(item, 'item'))
-    console.log(state, 'state')
 
 
     try {
@@ -60,8 +57,8 @@ export default function SignUpPage() {
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          <Image src="" /> Sign Up
+        <Header as="h2" color="black" textAlign="center">
+        <Icon name="add user" ></Icon> Sign Up
         </Header>
         <Form autoComplete="off" onSubmit={handleSubmit}>
           <Segment stacked>

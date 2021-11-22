@@ -1,15 +1,9 @@
 const mongoose = require('mongoose');
 
-const addedSchema = mongoose.Schema({
-
-  username: String,
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-})
-
 const movieSchema = new mongoose.Schema({
     imdbId: String,
-    users: [addedSchema]
+    users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
   })
  
 
-module.exports = mongoose.model('Post', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema);

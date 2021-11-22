@@ -1,27 +1,31 @@
-import React, {useEffect} from "react";
-import { Card, Image } from "semantic-ui-react";
+import React, { useEffect } from "react";
+import { Card } from "semantic-ui-react";
 import MovieCard from "../MovieCard/MovieCard";
 import { AppContext } from '../../context/AppContext'
 
+
 export default function MovieFeed() {
-    const {AppData, user, APISearch, searchList} = React.useContext(AppContext)
+    const { AppData, user, APISearch, APIUrl, getMovies, moviesList } = React.useContext(AppContext)
+
 
     useEffect(() => {
-      APISearch(searchList.filter(search => {return search.key === 'mostPopular'})[0].url);
-    }, []);
+        APISearch(APIUrl)
+        getMovies()
+    }, [])
+
 
     const Movies = AppData.items?.map((movie, i) => {
+        const movieDB = moviesList.movie?.filter(m => m.imdbId === movie.id)
         return (
-            <MovieCard key={i}  movie={movie} />
+            <MovieCard key={i} movieId={movie.id} movie={movie} movieDB={movieDB} />
         )
     })
 
-  return (<>
-  <h1 align='center'>{}</h1>
-      <Card.Group itemsPerRow={5} stackable>
-        {Movies}
-    </Card.Group>
-  </>
+    return (<>
+        <Card.Group className={'CardGroup'} itemsPerRow={5} stackable>
+            {Movies}
+        </Card.Group>
+    </>
 
-  );
+    );
 }

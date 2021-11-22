@@ -3,55 +3,65 @@ import { Card, Icon, Image, Transition} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { AppContext } from '../../context/AppContext'
 import * as movieApi from '../../utils/movieApi'
-
 const REACT_APP_IMDB_KEY=process.env.REACT_APP_IMDB_KEY
 
 
-function MovieCard({movieId, movie, movieDB }) {
+function ProfileCard({ movieId, movieDB }) {
 
-    const { user, removeMovie, addMovie, allPosters, getPoster } = React.useContext(AppContext)
+    const { user, removeMovie, addMovie } = React.useContext(AppContext)
+    const [movie, setMovie] = useState(null);
     const [ImgData, setImgData] = useState(null);
-    const [APImovie, setAPIMovie] = useState(movie);
 
     function MovieSearch(id) {
-        console.log('MovieSearch')
 		const url = `https://imdb-api.com/en/API/Title/${REACT_APP_IMDB_KEY}/${id}`
 		return (
 			fetch(url)
 				.then(response => response.json())
-				.then(data => setAPIMovie(data))
+				.then(data => setMovie(data))
 		)
 	}
 
+    // UNBLOCK FOR HIGH RES IMAGES
+
+    // function getPoster(movieId) {
+	// 	const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
+		
+	// 	return (
+	// 		fetch(url)
+	// 		.then(response => response.json())
+	// 		.then(data => setImgData(data.posters[0]?.link))			
+	// 	)
+	// }
+
     useEffect(() => {
         // getPoster(movie.id)
-        // (movieId in allPosters) ? setImgData(allPosters[movieId]) : getPoster(movieId)
-        movie ? setAPIMovie(movie) : MovieSearch(movieId)
+        MovieSearch(movieId)
 
     }, [movieDB]);
-
     const inList = movieDB?.length && user ? movieDB[0].users.includes(user._id) : false
+
     const liked = inList ? 'red' : 'grey'
+
     const clickHandler =
     inList
-      ? () => removeMovie(APImovie.id)
-      : () => addMovie(APImovie.id)
+      ? () => removeMovie(movieId)
+      : () => addMovie(movieId)
 
-    const Rated = movie?.imDbRating ? <Card.Description className={"ui center aligned"}><Icon name={'star'} color='yellow'></Icon>IMDB Rating: {movie.imDbRating}</Card.Description> : <Card.Description className={"ui center aligned"}><Icon name={'star'} color='yellow'></Icon>No Rating Available</Card.Description>
+    const Rated = movie?.imDbRating ? <Card.Description className={"ui center aligned"}><Icon name={'star'} color='yellow'></Icon>IMDB Rating: {movie.imDbRating}</Card.Description> : null
 
 
     return (
             <Card>
             <Card.Content>
                 <Card.Header className={"ui center aligned"}>
-                    {APImovie?.title}
+                    {movie?.title}
                 </Card.Header>
                 {Rated}
             </Card.Content>
-                <Image as={Link} to={`/${APImovie?.id}`} src={`${ImgData ? ImgData : APImovie?.image}`} wrapped ui={false} />
+            <Image as='a' href={`/${movie?.id}`} src={`${ImgData ? ImgData : movie?.image}`} wrapped ui={false} />
             <Card.Content>
-               {APImovie?.stars}
-                <Card.Description>{APImovie?.plot}</Card.Description>
+               {movie?.stars}
+                <Card.Description>{movie?.plot}</Card.Description>
             </Card.Content>
             <Card.Content extra textAlign={"center"}>
                 <Icon name={"heart"} size="large" color={liked} onClick={clickHandler} />
@@ -61,4 +71,4 @@ function MovieCard({movieId, movie, movieDB }) {
     );
 }
 
-export default MovieCard;
+export default ProfileCard;

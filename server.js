@@ -22,9 +22,13 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(require('./config/auth')); 
 // api routes must be before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/movies', require('./routes/api/movies'));
+app.use('/api/friends', require('./routes/api/friends'));
+
+
 // "catch all" route
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const port = process.env.PORT || 3001;

@@ -9,7 +9,7 @@ import {
   Form,
   Grid,
   Header,
-  Image,
+  Icon,
   Message,
   Segment,
 } from "semantic-ui-react";
@@ -54,9 +54,8 @@ export default function LoginPage() {
         verticalAlign="middle"
       >
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h2" color="teal" textAlign="center">
-            <Image src="https://i.imgur.com/s4LrnlU.png" /> Log-in to your
-            account
+          <Header as="h2" color="black" textAlign="center">
+            <Icon name="sign in" ></Icon> Please Log-In To Continue
           </Header>
           <Form autoComplete="off" onSubmit={handleSubmit}>
             <Segment stacked>
@@ -77,7 +76,7 @@ export default function LoginPage() {
                 required
               />
               <Button
-                color="teal"
+                color="black"
                 fluid
                 size="large"
                 type="submit"

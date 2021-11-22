@@ -11,11 +11,6 @@ export default function Home() {
         <Grid centered>
             <Grid.Row>
                 <Grid.Column style={{ maxWidth: 1500 }}>
-                    
-                </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-                <Grid.Column style={{ maxWidth: 1500 }}>
                     <MovieFeed />
                   </Grid.Column>
             </Grid.Row>
