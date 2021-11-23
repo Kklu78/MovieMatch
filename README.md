@@ -65,7 +65,7 @@ Friends Page with favorites you share
 * [Click to launch the app](https://moviematch-app.herokuapp.com/)
     * See the live application here
 
-* [Trello Board - Project Planning](https://trello.com/b/ntcckX7F)
+* [Trello](https://trello.com/b/FacPSfXc/moviematch)
     * This Trello Board was used to do all project planning and includes:
         * ERD
         * Project To Do List
