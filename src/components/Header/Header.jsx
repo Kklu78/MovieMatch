@@ -32,7 +32,7 @@ function PageHeader() {
 
   
   return (<>
-      <Header as='h2' floated='left'><Link style={{'color': 'black'}} to="/"><Icon name="home"></Icon>Home</Link></Header>
+      <Header as='h2' floated='left'><Link style={{'color': 'black'}} onClick={() => {APISearch(searchList[0].url)}} to="/"><Icon name="home"></Icon>Home</Link></Header>
       <Header as='h2' floated='right'>{LoggedIn}</Header>
       <Header size='huge' textAlign='center'><Icon style={{'color': 'black'}} name="ticket alternate"></Icon>MovieMatch {Title ? `: ${Title}`: movieData.title ? `: ${movieData.title}` : null}</Header>
       <Menu inverted>

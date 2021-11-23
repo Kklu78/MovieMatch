@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Item, Icon, Card, Header } from "semantic-ui-react";
+import { Item, Icon, Card, Header, Loader, Dimmer } from "semantic-ui-react";
 import { AppContext } from '../../context/AppContext';
 import { useParams } from 'react-router-dom'
 import ActorCard from '../ActorCard/ActorCard'
@@ -13,6 +13,8 @@ export default function MoviePage() {
     const { user, CastSearch, castData, addMovie, removeMovie, moviesList, getMovies, allMovies, setTitle } = React.useContext(AppContext)
     const [ImgData, setImgData] = useState(null);
     const [MoviePageData, setMoviePageData] = useState(allMoviesSearch[movie]);
+    const [loading, setLoading] = useState(true)
+
 
 
     function getPoster(movieId) {
@@ -37,11 +39,13 @@ export default function MoviePage() {
     const movieDB = moviesList.movie?.filter(m => m.imdbId === movie)
 
     useEffect(() => {
+        setLoading(true)
         MovieSearch(movie)
         moviePosters[movie] ? setImgData(moviePosters[movie]) : getPoster(movie)
         CastSearch(movie)
         getMovies()
         setTitle('Movie Details')
+        setTimeout(() => setLoading(false), Math.floor(Math.random() * 500)+ 250)
     }, [movie])
 
 
@@ -70,7 +74,14 @@ export default function MoviePage() {
     }) : null
 
     
-    return (
+    return (<>
+    {loading ? (
+          <Dimmer active inverted>
+            <Loader size="large">Loading</Loader>
+          </Dimmer>
+      ) : 
+    
+        
         <Item.Group style={{ 'paddingLeft': 50, 'paddingRight': 50 }}>
             <Item>
                 <Item.Image className={'poster'} size='large' src={`${ImgData}`} />
@@ -102,5 +113,7 @@ export default function MoviePage() {
                 </Item.Content>
             </Item>
         </Item.Group>
+}
+        </>
     )
 }
