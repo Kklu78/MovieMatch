@@ -18,7 +18,6 @@ export default function MovieFeed() {
     })
 
     useEffect(() => {
-        console.log('feed')
         setLoading(true)
         APISearch(APIUrl)
         getMovies()
