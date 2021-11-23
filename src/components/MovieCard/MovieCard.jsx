@@ -35,7 +35,7 @@ function MovieCard({ movieId, movie, movieDB }) {
 
     useEffect(() => {
         movie ? setAPIMovie(movie) : MovieSearch(movieId)
-        moviePosters[movie?.id] ? setImgData(moviePosters[movie.id]) : getPoster(movie.id)// setImgData(movie?.image) Replace with this to reduce API calls
+        moviePosters[movie?.id] ? setImgData(moviePosters[movie.id]) : setImgData(movie?.image) // getPoster(movie.id)//  Replace with this to reduce API calls
     }, [movieDB]);
 
     const inList = movieDB?.length && user ? movieDB[0].users.includes(user._id) : false
