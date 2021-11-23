@@ -18,12 +18,13 @@ export default function MovieFeed() {
     })
 
     useEffect(() => {
+        console.log('feed')
         setLoading(true)
         APISearch(APIUrl)
         getMovies()
         setTimeout(() => setLoading(false), Math.floor(Math.random() * 500)+ 500)
 
-    }, [MoviesData])
+    }, [Title])
 
     return (<>
             {loading ? (
