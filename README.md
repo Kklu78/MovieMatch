@@ -51,13 +51,14 @@ Friends Page with favorites you share
 
 # Technologies Used
 
-* Javascript for interactive functions
-* CSS for Styling
+* CSS
 * React
 * MongoDB
 * Express
 * Mongoose
 * Node.js
+* Movie API
+
 
 
 # Getting Started
