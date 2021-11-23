@@ -9,7 +9,7 @@ const REACT_APP_IMDB_KEY = process.env.REACT_APP_IMDB_KEY
 
 
 function MovieCard({ movieId, movie, movieDB }) {
-    const { user, removeMovie, addMovie, allPosters, setAllPosters } = React.useContext(AppContext)
+    const { user, removeMovie, addMovie, } = React.useContext(AppContext)
     const [ImgData, setImgData] = useState(null);
     const [APImovie, setAPIMovie] = useState(movie);
 
@@ -23,11 +23,20 @@ function MovieCard({ movieId, movie, movieDB }) {
         )
     }
 
+    function getPoster(movieId) {
+        console.log('posterAPI')
+        const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
 
+        return (
+            fetch(url)
+                .then(response => response.json())
+                .then(data => !!data.posters[0]?.link ? setImgData(data.posters[0]?.link) : setImgData(movie?.image))
+        )
+    }
 
     useEffect(() => {
         movie ? setAPIMovie(movie) : MovieSearch(movieId)
-        moviePosters[movie?.id] ? setImgData(moviePosters[movie.id]) : setImgData(movie?.image)
+        moviePosters[movie?.id] ? setImgData(moviePosters[movie.id]) : getPoster(movie.id) //setImgData(movie?.image) Replace with this to reduce API calls
     }, [movieDB]);
 
     const inList = movieDB?.length && user ? movieDB[0].users.includes(user._id) : false
@@ -41,7 +50,7 @@ function MovieCard({ movieId, movie, movieDB }) {
 
 
     return (
-        <Card>            
+        <Card style={{ 'border': '.5px solid', 'boxShadow': '1px 1px 2px #888888' }}>            
             <Card.Content>
                 <Card.Header className={"ui center aligned"}>
                     {APImovie?.title}

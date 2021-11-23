@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import ActorCard from '../ActorCard/ActorCard'
 import MovieCard from '../MovieCard/MovieCard'
 import { moviePosters, allMoviesSearch } from '../../context/Data'
+import "./MoviePage.css";
 const REACT_APP_IMDB_KEY = process.env.REACT_APP_IMDB_KEY
 
 export default function MoviePage() {
@@ -72,7 +73,7 @@ export default function MoviePage() {
     return (
         <Item.Group style={{ 'paddingLeft': 50, 'paddingRight': 50 }}>
             <Item>
-                <Item.Image style={{ 'border': '1px solid', 'boxShadow': '3px 5px 4px #888888' }} size='large' src={`${ImgData}`} />
+                <Item.Image className={'poster'} size='large' src={`${ImgData}`} />
 
                 <Item.Content>
                     <Item.Header style={{ 'fontSize': 40, 'paddingTop': 15 }}>{MoviePageData?.fullTitle ? MoviePageData?.fullTitle : MoviePageData?.title}</Item.Header>

@@ -24,8 +24,8 @@ export default function Profile() {
     })
 
     const Header = userId === user._id 
-    ? <Grid.Row><h2>Your Favorites</h2></Grid.Row> 
-    : <Grid.Row><h2>Favorite Movies You Share With {allUsers.filter(user => user._id === userId)[0]?.username}</h2></Grid.Row>
+    ? <Grid.Row><h1>Your Favorites</h1></Grid.Row> 
+    : <Grid.Row><h1>Favorite Movies You Share With {allUsers.filter(user => user._id === userId)[0]?.username}</h1></Grid.Row>
     
     
     
@@ -52,14 +52,15 @@ export default function Profile() {
         <Grid centered>
             {Header}
             {FriendStatusDict[friendStatusKey]}
-            
-            <Grid.Row>
+            {friendStatusKey === 3 || userId === user._id ? 
+            (<Grid.Row>
                 <Grid.Column style={{ maxWidth: 1500 }}>
                     <Card.Group className={'CardGroup'} itemsPerRow={5} stackable>
                         {Movies}
                     </Card.Group>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row>)
+            : <h2>You Must Be Friends With This Person To See Shared Movies</h2>}
         </Grid>
 
     </>
