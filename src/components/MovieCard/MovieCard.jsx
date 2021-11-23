@@ -24,7 +24,7 @@ function MovieCard({ movieId, movie, movieDB }) {
     }
 
     function getPoster(movieId) {
-        console.log('posterAPI')
+        // console.log('posterAPI')
         const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
 
         return (
