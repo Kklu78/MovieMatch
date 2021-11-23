@@ -34,7 +34,7 @@ function PageHeader() {
   return (<>
       <Header as='h2' floated='left'><Link style={{'color': 'black'}} to="/"><Icon name="home"></Icon>Home</Link></Header>
       <Header as='h2' floated='right'>{LoggedIn}</Header>
-      <Header size='huge' textAlign='center'>MovieMatch {Title ? `: ${Title}`: movieData.title ? `: ${movieData.title}` : null}</Header>
+      <Header size='huge' textAlign='center'><Icon style={{'color': 'black'}} name="ticket alternate"></Icon>MovieMatch {Title ? `: ${Title}`: movieData.title ? `: ${movieData.title}` : null}</Header>
       <Menu inverted>
       {headerSearch}
       <Menu.Item position='right' as={Link} to={`/profile/${user?._id}`} >Profile</Menu.Item>
@@ -49,7 +49,6 @@ function PageHeader() {
       </Dropdown.Menu>
     </Dropdown>
     <Menu.Item > {user ? `Logged In as ${user.username}` : 'Not Logged In'}</Menu.Item>
-
       </Menu >
     </>
   )
