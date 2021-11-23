@@ -63,7 +63,7 @@ Friends Page with favorites you share
 
 # Getting Started
 
-* [Click to launch the app]()
+* [Click to launch the app](https://moviematch-app.herokuapp.com/)
     * See the live application here
 
 * [Trello](https://trello.com/b/FacPSfXc/moviematch)
