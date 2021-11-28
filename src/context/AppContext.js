@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import userService from "../utils/userService";
 import * as movieApi from "../utils/movieApi";
 import * as friendsApi from "../utils/friendsApi"
+import * as imdbaApi from "../utils/imdbApi"
 import { allMoviesData } from './Data'
 
 export const AppContext = React.createContext();
@@ -13,7 +14,6 @@ export const AppContextProvider = ({ children }) => {
 	const [user, setUser] = useState(userService.getUser()); // user data
 	const [allUsers, setAllUsers] = useState([]); // all users data
 	const [AppData, setAppData] = useState({}); // api call data
-	const [APIUrl, setAPIUrl] = useState(`https://imdb-api.com/en/API/MostPopularMovies/${REACT_APP_IMDB_KEY}`) //api url
 	const [Title, setTitle] = useState('') // header title
 	const [movieData, setMovieData] = useState({});
 	const [castData, setCastData] = useState({});
@@ -21,47 +21,49 @@ export const AppContextProvider = ({ children }) => {
 	const [friendStatus, setFriendStatus] = useState([])
 	const [userFriends, setuserFriends] = useState([[]])
 	const [allMovies, setAllMovies] = useState(allMoviesData)
+	const [searchKey, setSearchKey] = useState('mostPopular')
 
 	const searchList = [
-		{ key: 'mostPopular', name: 'Most Popular', url: `https://imdb-api.com/en/API/MostPopularMovies/${REACT_APP_IMDB_KEY}` },
-		{ key: 'nowPlaying', name: 'Now Playing', url: `https://imdb-api.com/en/API/InTheaters/${REACT_APP_IMDB_KEY}` },
-		{ key: 'top250', name: 'Top 250', url: `https://imdb-api.com/en/API/Top250Movies/${REACT_APP_IMDB_KEY}` },
-		{ key: 'comingSoon', name: 'Coming Soon', url: `https://imdb-api.com/en/API/ComingSoon/${REACT_APP_IMDB_KEY}` },
-
+		{ key: 'mostPopular', name: 'Most Popular'},
+		{ key: 'nowPlaying', name: 'Now Playing'},
+		{ key: 'top250', name: 'Top 250'},
+		{ key: 'comingSoon', name: 'Coming Soon'},
+	
 	]
+	// API Functions
+	async function APISearch(key) {
+		setSearchKey(key)
+		setTitle(searchList.filter(x => x.key === key)[0]?.name)
+		try {
+			const data = await imdbaApi.APISearch(key)
+			setAppData(data.data)
+			setAllMovies(data.data.items.reduce((a,b) => ({...a, [b.id]:b}), {...allMovies,}))
 
-	//Movie API Functions
-	function APISearch(Query) {
-		setTitle(searchList.filter(x => x.url === Query)[0].name)
-		setAPIUrl(Query)
-		return (
-			fetch(Query)
-				.then(response => response.json())
-				.then((data) => {setAppData(data);
-					setAllMovies(data.items.reduce((a,b) => ({...a, [b.id]:b}), {...allMovies,}));
-
-				})
-		)
+		} catch (error) {
+			console.log(error)
+		}
 	}
+	
+	async function MovieSearch(id) {
+		try {
+			const data = await imdbaApi.MovieSearch(id)
+			setMovieData(data)
 
-	function MovieSearch(id) {
-		const url = `https://imdb-api.com/en/API/Title/${REACT_APP_IMDB_KEY}/${id}`
-		return (
-			fetch(url)
-				.then(response => response.json())
-				.then(data => setMovieData(data))
-		)
-
+		} catch (error) {
+			console.log(error)
+		}
+	
 	}
+	
+	async function CastSearch(id) {
+		try {
+			const data = await imdbaApi.CastSearch(id)
+			setCastData(data.data)
 
-	function CastSearch(id) {
-		const url = `https://imdb-api.com/en/API/FullCast/${REACT_APP_IMDB_KEY}/${id}`
-		return (
-			fetch(url)
-				.then(response => response.json())
-				.then(data => setCastData(data))
-		)
-
+		} catch (error) {
+			console.log(error)
+		}
+	
 	}
 
 
@@ -185,7 +187,6 @@ export const AppContextProvider = ({ children }) => {
 			getAllUsers,
 			allUsers,
 			//Movie API Fucntions
-			APIUrl,
 			Title,
 			setTitle,
 			AppData,
@@ -197,6 +198,7 @@ export const AppContextProvider = ({ children }) => {
 			CastSearch,
 			castData,
 			allMovies,
+			searchKey,
 			//Movie Database Functions
 			addMovie,
 			removeMovie,

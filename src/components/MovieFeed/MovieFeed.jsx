@@ -6,10 +6,10 @@ import { menuDict } from '../../context/Data'
 
 
 export default function MovieFeed() {
-    const { AppData, user, APISearch, APIUrl, getMovies, moviesList, Title } = React.useContext(AppContext)
+    const { AppData, user, APISearch, getMovies, moviesList, Title, searchKey } = React.useContext(AppContext)
     const [loading, setLoading] = useState(true)
     const MoviesData = Boolean(AppData.items?.length) ? AppData : menuDict[Title]
-
+    
     const Movies = MoviesData?.items?.map((movie, i) => {
         const movieDB = moviesList.movie?.filter(m => m.imdbId === movie.id)
         return (
@@ -19,7 +19,7 @@ export default function MovieFeed() {
 
     useEffect(() => {
         setLoading(true)
-        APISearch(APIUrl)
+        APISearch(searchKey)
         getMovies()
         setTimeout(() => setLoading(false), Math.floor(Math.random() * 500)+ 250)
 

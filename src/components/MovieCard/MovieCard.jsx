@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Card, Icon, Image} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { AppContext } from '../../context/AppContext'
-import * as movieApi from '../../utils/movieApi'
+import * as imdbApi from '../../utils/imdbApi'
 import { moviePosters } from '../../context/Data'
 
 const REACT_APP_IMDB_KEY = process.env.REACT_APP_IMDB_KEY
 
 
 function MovieCard({ movieId, movie, movieDB }) {
-    const { user, removeMovie, addMovie, } = React.useContext(AppContext)
+    const { user, removeMovie, addMovie, allMoviesSearch } = React.useContext(AppContext)
     const [ImgData, setImgData] = useState(null);
     const [APImovie, setAPIMovie] = useState(movie);
 
-    function MovieSearch(id) {
-        console.log('MovieSearch')
-        const url = `https://imdb-api.com/en/API/Title/${REACT_APP_IMDB_KEY}/${id}`
-        return (
-            fetch(url)
-                .then(response => response.json())
-                .then(data => setAPIMovie(data))
-        )
+    async function getPoster(id) {
+        try {
+			const data = await imdbApi.getPoster(id)
+			setImgData(data.data.posters[0]?.link)
+
+		} catch (error) {
+			console.log(error)
+    }
     }
 
-    function getPoster(movieId) {
-        const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
+    async function MovieSearch(id) {
+        try {
+			const data = await imdbApi.MovieSearch(id)
+			!!data.data.id ? setAPIMovie(data.data) : setAPIMovie(allMoviesSearch[movie])
 
-        return (
-            fetch(url)
-                .then(response => response.json())
-                .then(data => !!data.posters[0]?.link ? setImgData(data.posters[0]?.link) : setImgData(movie?.image))
-        )
+		} catch (error) {
+			console.log(error)
     }
+}
 
     useEffect(() => {
         movie ? setAPIMovie(movie) : MovieSearch(movieId)

@@ -40,9 +40,7 @@ async function friendRequest(req, res) {
   }
 
   async function acceptRequest(req, res) {
-
       try {
-
         const updateUserA = await Friend.findOneAndUpdate(
             { requester: req.user._id, recipient: req.params.friendId },
             { $set: { status: 3 }}
@@ -100,7 +98,7 @@ async function getFriends(req, res) {
 async function getAllFriends(req, res) {
 
     try {
-        const friends = await Friend.find({ requester: req.user._id, status: '3' })
+        const friends = await Friend.find({ requester: req.user._id})
         res.status(201).json({ friends: friends });
     } catch (err) {
         res.status(400).json({ err });

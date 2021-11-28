@@ -30,8 +30,9 @@ export default function Profile() {
     const FriendStatusDict = {
         0: <Grid.Row><Button color={'blue'} href={`/profile/${userId}`} onClick={() => friendRequest(userId)} content='Add Friend' /></Grid.Row>,
         1: <Grid.Row><Button color={'grey'} content='Friend Requested' disabled /></Grid.Row>,
-        2: <Grid.Row><Button color={'blue'} href={`/profile/${userId}`} onClick={() => acceptRequest(userId)} content='Accept Friend Request' /></Grid.Row>,
-        3: <Grid.Row><Button color={'vk'} content='You Are Friends' /></Grid.Row>
+        2: <Grid.Row><Button color={'blue'} href={`/profile/${userId}`} onClick={() => acceptRequest(userId)} content='Accept Friend Request' />
+                     <Button color={'red'} href={`/profile/${userId}`} onClick={() => rejectRequest(userId)} content='Reject Friend Request' /></Grid.Row>,
+        3: <Grid.Row><Button color={'vk'} content='You Are Friends' /><Button color={'red'} href={`/profile/${userId}`} onClick={() => rejectRequest(userId)} content='Unfriend this person' /></Grid.Row>
     }
 
     const friendStatusKey = userId === user._id ? null : friendStatus.friends?.length ? friendStatus.friends[0].status : 0

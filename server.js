@@ -24,6 +24,8 @@ app.use(require('./config/auth'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/movies', require('./routes/api/movies'));
 app.use('/api/friends', require('./routes/api/friends'));
+app.use('/api/imdb', require('./routes/api/imdb'));
+
 
 
 // "catch all" route

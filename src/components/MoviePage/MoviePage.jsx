@@ -6,6 +6,7 @@ import ActorCard from '../ActorCard/ActorCard'
 import MovieCard from '../MovieCard/MovieCard'
 import { moviePosters, allMoviesSearch } from '../../context/Data'
 import "./MoviePage.css";
+import * as imdbApi from "../../utils/imdbApi"
 const REACT_APP_IMDB_KEY = process.env.REACT_APP_IMDB_KEY
 
 export default function MoviePage() {
@@ -17,24 +18,25 @@ export default function MoviePage() {
 
 
 
-    function getPoster(movieId) {
-        const url = `https://imdb-api.com/en/API/Posters/${REACT_APP_IMDB_KEY}/${movieId}`
+    async function getPoster(id) {
+        try {
+			const data = await imdbApi.getPoster(id)
+			setImgData(data.data.posters[0]?.link)
 
-        return (
-            fetch(url)
-                .then(response => response.json())
-                .then(data => setImgData(data.posters[0]?.link))
-        )
+		} catch (error) {
+			console.log(error)
+    }
     }
 
-    function MovieSearch(id) {
-        const url = `https://imdb-api.com/en/API/Title/${REACT_APP_IMDB_KEY}/${id}`
-        return (
-            fetch(url)
-                .then(response => response.json())
-                .then(data => !!data.id ? setMoviePageData(data) : setMoviePageData(allMoviesSearch[movie]))
-        )
+    async function MovieSearch(id) {
+        try {
+			const data = await imdbApi.MovieSearch(id)
+			!!data.data.id ? setMoviePageData(data.data) : setMoviePageData(allMoviesSearch[movie])
+
+		} catch (error) {
+			console.log(error)
     }
+}
 
     const movieDB = moviesList.movie?.filter(m => m.imdbId === movie)
 
@@ -42,14 +44,13 @@ export default function MoviePage() {
         setLoading(true)
         MovieSearch(movie)
         moviePosters[movie] ? setImgData(moviePosters[movie]) : getPoster(movie)
-        CastSearch(movie)
         getMovies()
         setTitle('Movie Details')
         setTimeout(() => setLoading(false), Math.floor(Math.random() * 500)+ 250)
     }, [movie])
 
 
-    const Cast = allMoviesSearch[movie]?.actorList?.slice(0, 8).map((actor, i) => {
+    const Cast = MoviePageData?.actorList?.slice(0, 8).map((actor, i) => {
         return <ActorCard key={i} actor={actor} />
     })
 
