@@ -17,7 +17,7 @@ function PageHeader() {
     const FriendStatusDict = {
       0: <Icon color='black' name='user circle'></Icon>,
       1: <Icon color='grey' name='user circle'></Icon>,
-      2: <Icon color='green' name='user plus'></Icon>,
+      2: <Icon color='teal' name='user plus'></Icon>,
       3: <Icon color='blue' name='user circle'></Icon>
   }
     return (user?._id != u?._id 
@@ -39,7 +39,7 @@ function PageHeader() {
 
   
   return (<>
-      <Header as='h2' floated='left'><Link style={{'color': 'black'}} onClick={() => {APISearch(searchList[0].url)}} to="/"><Icon name="home"></Icon>Home</Link></Header>
+      <Header as='h2' floated='left'><Link style={{'color': 'black'}} onClick={() => {APISearch('mostPopular')}} to="/"><Icon name="home"></Icon>Home</Link></Header>
       <Header as='h2' floated='right'>{LoggedIn}</Header>
       <Header size='huge' textAlign='center'><Icon style={{'color': 'black'}} name="ticket alternate"></Icon>MovieMatch {Title ? `: ${Title}`: movieData.title ? `: ${movieData.title}` : ''}</Header>
       <Menu inverted>
